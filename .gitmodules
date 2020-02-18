@@ -1,3 +1,6 @@
 [submodule "openbsd-amd64-create-img"]
 	path = openbsd-amd64-create-img
 	url = git@github.com:MengshiLi/openbsd-amd64-create-img.git
+[submodule "busybear-linux"]
+	path = busybear-linux
+	url = git@github.com:MengshiLi/busybear-linux.git

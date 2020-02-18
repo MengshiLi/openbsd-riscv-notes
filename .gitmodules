@@ -1,0 +1,3 @@
+[submodule "openbsd-amd64-create-img"]
+	path = openbsd-amd64-create-img
+	url = git@github.com:MengshiLi/openbsd-amd64-create-img.git

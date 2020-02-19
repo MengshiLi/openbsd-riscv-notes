@@ -4,3 +4,6 @@
 [submodule "busybear-linux"]
 	path = busybear-linux
 	url = git@github.com:MengshiLi/busybear-linux.git
+[submodule "riscv-pk"]
+	path = riscv-pk
+	url = git@github.com:MengshiLi/riscv-pk.git

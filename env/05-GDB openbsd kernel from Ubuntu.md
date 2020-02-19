@@ -55,7 +55,9 @@ export PATH=$PATH:$RISCV/bin
 
 ### 5. Build bbl with bsd as payload
 ```
+rm -rf build && mkdir build && cd build
 ../configure --host=riscv64-unknown-linux-gnu --with-payload=/home/mars/riscv/openbsdGDB/bsd
+
 make
 ```
 - the binary bbl is located at: `build/riscv-pk/bbl`, copy it to `/home/mars/riscv/openbsdGDB/` for easy manipulation

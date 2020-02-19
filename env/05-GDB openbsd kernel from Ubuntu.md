@@ -55,11 +55,7 @@ export PATH=$PATH:$RISCV/bin
 
 ### 5. Build bbl with bsd as payload
 ```
-
-../configure \
-    --host=riscv64-unknown-linux-gnu \
-    --with-payload=/home/mars/riscv/openbsdGDB/bsd
-
+../configure --host=riscv64-unknown-linux-gnu --with-payload=/home/mars/riscv/openbsdGDB/bsd
 make
 ```
 - the binary bbl is located at: `build/riscv-pk/bbl`, copy it to `/home/mars/riscv/openbsdGDB/` for easy manipulation
@@ -69,7 +65,7 @@ make
 - if normal user has no privilege, try `sudo su` first.
 
 
-### 5b. Build bbl on OpenBSD
+### 5b. Build bbl on OpenBSD (not recommended due to CC conflicts)
 - install riscv gnu tool chain on OpenBSD: `pkg_add riscv-elf-binutils riscv-elf-gcc riscv-elf-newlib`
 
 - build bbl: first ensure $CC is not set
@@ -77,20 +73,13 @@ make
 git clone https://github.com/riscv/riscv-pk.git
 cd riscv-pk
 mkdir build && cd build
-../configure \
-    --host=riscv64-unknown-elf \
-    --with-payload=../../../img/bsd
+../configure --host=riscv64-unknown-elf --with-payload=../../../img/bsd
 gmake
 ```
 
 
 ### 6. Run openbsd bbl in QEMU
-```
-qemu-system-riscv64 -s -S\
-  -nographic -machine virt \
-  -d in_asm -D debug.log \
-  -kernel /home/mars/riscv/img/bbl 
-```
+`qemu-system-riscv64 -s -S -nographic -machine virt -kernel /home/mars/riscv/riscv/openbsdGDB/bbl`
 
 
 ### 7. Start gdb 

@@ -51,14 +51,14 @@ New packages to be INSTALLED:
 
 #### 5a. Build _FreeBSD World_ (w/o Kernel) using hand-built toolchain (Failed).
 ```
-setenv MAKEOBJDIRPREFIX /home/mengsli/rv/obj/
-setenv CROSS_BINUTILS_PREFIX $PREFIX/riscv64-unknown-freebsd12.1/bin/
-setenv CROSS_COMPILER_PREFIX $PREFIX/bin/riscv64-unknown-freebsd12.1-
-setenv XCC ${CROSS_COMPILER_PREFIX}gcc
-setenv XCXX ${CROSS_COMPILER_PREFIX}c++
-setenv XCPP ${CROSS_COMPILER_PREFIX}cpp
-setenv STRIPBIN ${CROSS_COMPILER_PREFIX}strip
-setenv X_COMPILER_TYPE gcc
+export MAKEOBJDIRPREFIX=/home/$USER/rv/obj/
+export CROSS_BINUTILS_PREFIX=$PREFIX/riscv64-unknown-freebsd12.1/bin/
+export CROSS_COMPILER_PREFIX=$PREFIX/bin/riscv64-unknown-freebsd12.1-
+export XCC=${CROSS_COMPILER_PREFIX}gcc
+export XCXX=${CROSS_COMPILER_PREFIX}c++
+export XCPP=${CROSS_COMPILER_PREFIX}cpp
+export STRIPBIN=${CROSS_COMPILER_PREFIX}strip
+export X_COMPILER_TYPE=gcc
 
 make TARGET_ARCH=riscv64 buildworld -j16
 ```
@@ -71,8 +71,8 @@ using ::gets;
 
 #### 5b. Build FreeBSD World (w/o Kernel) using devel/riscv64-xtoolchain-gcc(Succeed)
 ```
-setenv MAKEOBJDIRPREFIX /home/mengsli/obj/
-setenv WITHOUT_FORMAT_EXTENSIONS yes
+export MAKEOBJDIRPREFIX=/home/$USER/obj/
+export WITHOUT_FORMAT_EXTENSIONS=yes
 make CROSS_TOOLCHAIN=riscv64-gcc TARGET_ARCH=riscv64 buildworld -j8
 ```
 - approximately takes following time on 8 skylake core: `World built in 1618 seconds, ncpu: 8, make -j8`
@@ -80,7 +80,7 @@ make CROSS_TOOLCHAIN=riscv64-gcc TARGET_ARCH=riscv64 buildworld -j8
 
 #### 6a. Build _FreeBSD kernel_ using hand-built tool:
 - `make TARGET_ARCH=riscv64 buildkernel KERNCONF=QEMU`
-- the resultant kernel can be found at `/usr/home/mengsli/obj/usr/home/mengsli/freebsd-riscv/riscv.riscv64/sys/QEMU/`
+- the resultant kernel can be found at `/usr/home/$USER/obj/usr/home/$USER/freebsd-riscv/riscv.riscv64/sys/QEMU/`
   - kernel
   - kernel.debug
   - kernel.full
@@ -98,14 +98,14 @@ make CROSS_TOOLCHAIN=riscv64-gcc TARGET_ARCH=riscv64 buildworld -j8
 git clone https://github.com/freebsd-riscv/riscv-pk
 cd riscv-pk
 mkdir build && cd build
-setenv PATH ${PATH}:${PREFIX}/bin
-setenv CPP cpp
-setenv CFLAGS "-nostdlib"
-setenv WITH_ARCH rv64g
+export PATH=${PATH}:${PREFIX}/bin
+export CPP=cpp
+export CFLAGS="-nostdlib"
+export WITH_ARCH=rv64g
 ../configure --enable-logo --prefix=$PREFIX --host=riscv64-unknown-freebsd12.0 --with-payload=<path_to_freebsd_kernel>
 gmake bbl
-unsetenv CFLAGS
-unsetenv CPP
+unset CFLAGS
+unset CPP
 ```
 
 #### 7b. Alternatively, get prebuilt bbl:
@@ -116,8 +116,8 @@ unsetenv CPP
 
 #### 8. Install FreeBSD world and kernel
 ```
-setenv DESTDIR /home/mengsli/riscv-world
-setenv CROSS_BINUTILS_PREFIX /usr/local/riscv64-unknown-freebsd12.0/bin/
+export DESTDIR=/home/$USER/riscv-world
+export CROSS_BINUTILS_PREFIX=/usr/local/riscv64-unknown-freebsd12.0/bin/
 make TARGET_ARCH=riscv64 -DNO_ROOT DESTDIR=$DESTDIR installworld
 make TARGET_ARCH=riscv64 -DNO_ROOT DESTDIR=$DESTDIR distribution
 make TARGET_ARCH=riscv64 INSTALLKERNEL=QEMU -DNO_ROOT DESTDIR=$DESTDIR installkernel

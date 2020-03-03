@@ -1,6 +1,5 @@
 #### Before reading: 
-This manual shows the build process using manual-built gnu tool chain in part a of each session.
-Substitutely, it can also be built with devel toolchain, which is shown in a parallel part b.
+This manual shows the build process using devel toolchain.
 
 #### [main ref](https://wiki.freebsd.org/riscv)
 
@@ -12,22 +11,10 @@ Substitutely, it can also be built with devel toolchain, which is shown in a par
 
 ## Install GNU Cross Compiler Tool Chain for RISCV
 
-#### 1. Setup toolchain installation directory
-- ` export PREFIX="/usr/local/riscv"  `
-
 #### 2. Install prerequired packages
 - `sudo pkg install bison gmp mpfr mpc gawk gsed pkgconf texinfo gmake`
 
-#### 3a. Build Toolchain from source code [Takes longer time, not preferred]
-```
-git clone https://github.com/freebsd-riscv/riscv-gnu-toolchain
-cd riscv-gnu-toolchain
-git submodule update --init --recursive
-./configure --prefix=$PREFIX
-gmake -j16 freebsd
-```
-
-#### 3b. alternatively, install from port directly. [Preferred] 
+#### 3. Install from port directly. [Preferred] 
 - [riscv64-xtoolchain-gcc](https://www.freshports.org/devel/riscv64-xtoolchain-gcc)
 - `sudo pkg install riscv64-xtoolchain-gcc` 
 - after which, we will get: 
@@ -48,28 +35,7 @@ New packages to be INSTALLED:
 - `git clone https://github.com/freebsd/freebsd freebsd-riscv`
 - `cd freebsd-riscv`
 
-
-#### 5a. Build _FreeBSD World_ (w/o Kernel) using hand-built toolchain (Failed).
-```
-export MAKEOBJDIRPREFIX=/home/$USER/rv/obj/
-export CROSS_BINUTILS_PREFIX=$PREFIX/riscv64-unknown-freebsd12.1/bin/
-export CROSS_COMPILER_PREFIX=$PREFIX/bin/riscv64-unknown-freebsd12.1-
-export XCC=${CROSS_COMPILER_PREFIX}gcc
-export XCXX=${CROSS_COMPILER_PREFIX}c++
-export XCPP=${CROSS_COMPILER_PREFIX}cpp
-export STRIPBIN=${CROSS_COMPILER_PREFIX}strip
-export X_COMPILER_TYPE=gcc
-
-make TARGET_ARCH=riscv64 buildworld -j16
-```
-- can't make through due to the following error:
-```
-project/llvm/lib/Analysis/AliasAnalysis.cpp:26:
-/usr/include/c++/v1/cstdio:157:9: error: '::gets' has not been declared
-using ::gets;
-```
-
-#### 5b. Build FreeBSD World (w/o Kernel) using devel/riscv64-xtoolchain-gcc(Succeed)
+#### 5. Build FreeBSD World (w/o Kernel) using devel/riscv64-xtoolchain-gcc(Succeed)
 ```
 export MAKEOBJDIRPREFIX=/home/$USER/obj/
 export WITHOUT_FORMAT_EXTENSIONS=yes
@@ -77,23 +43,15 @@ make CROSS_TOOLCHAIN=riscv64-gcc TARGET_ARCH=riscv64 buildworld -j8
 ```
 - approximately takes following time on 8 skylake core: `World built in 1618 seconds, ncpu: 8, make -j8`
 
-
-#### 6a. Build _FreeBSD kernel_ using hand-built tool:
-- `make TARGET_ARCH=riscv64 buildkernel KERNCONF=QEMU`
-- the resultant kernel can be found at `/usr/home/$USER/obj/usr/home/$USER/freebsd-riscv/riscv.riscv64/sys/QEMU/`
+#### 6. Build FreeBSD kernel using devel/riscv64-xtoolchain-gcc: 
+- `make TARGET_ARCH=riscv64 buildkernel CROSS_TOOLCHAIN=riscv64-gcc KERNCONF=QEMU`
+- the resultant kernel can be found at `/usr/home/$USER/obj/usr/home/$USER/freebsd-riscv/riscv.riscv64/sys/QEMU/`:
   - kernel
   - kernel.debug
   - kernel.full
 
-#### 6b. Alternatively, Build FreeBSD kernel using devel/riscv64-xtoolchain-gcc: 
-- `make TARGET_ARCH=riscv64 buildkernel CROSS_TOOLCHAIN=riscv64-gcc KERNCONF=QEMU`
 
-#### 6c. Alternatively, Get Prebuilt FreeBSD Kernel 
-- [from here](https://artifact.ci.freebsd.org/snapshot/head/latest/riscv/riscv64/kernel.xz). 
-- Then extract: `xz kernel.xz`
-
-
-#### 7a. build _BBL_ to boot FreeBSD
+#### 7. build _BBL_ to boot FreeBSD
 ```
 git clone https://github.com/freebsd-riscv/riscv-pk
 cd riscv-pk
@@ -107,12 +65,6 @@ gmake bbl
 unset CFLAGS
 unset CPP
 ```
-
-#### 7b. Alternatively, get prebuilt bbl:
-- from [here](https://artifact.ci.freebsd.org/snapshot/head/latest/riscv/riscv64/bbl.xz) 
-
-#### 7c, alternatively, build bbl on a linux machine, only need to specify the pay-load.
-
 
 #### 8. Install FreeBSD world and kernel
 ```
@@ -165,4 +117,3 @@ chmod 0660 /dev/tap0
 - qemu: qemu source code
 - obj: output position of build freebsd world and freebsd kernel
 - riscv-world: freebsd world with kernel, ready to make a complete rootfs.
-- freebsd-img: collected all essential image

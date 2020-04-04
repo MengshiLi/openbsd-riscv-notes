@@ -1,15 +1,11 @@
 Suggest install from source, so that we can get latest bits for risc-v support.
 
 ### Install on Linux:
-- need gcc to build:
+- Install build dependencies:
 ```
 sudo apt update
-sudo apt install build-essential
+sudo apt install build-essential flex bison glib2.0 libpixman-1-dev
 ```
-
-- prerequisites:
-  - `sudo apt-get install glib2.0`
-  - `sudo apt-get install libpixman-1-dev`
 
 - note 1: specify target to install on demand
 ```

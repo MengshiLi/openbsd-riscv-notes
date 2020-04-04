@@ -12,8 +12,10 @@ sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev
 
 ### installation (Linux)
 ```
+cd riscv-gnu-toolchain
 ./configure --prefix=/usr/local/riscv
 sudo make linux -j8
+sudo make install
 export PATH=$PATH:/usr/local/riscv/bin
 export RISCV=/usr/local/riscv
 ```

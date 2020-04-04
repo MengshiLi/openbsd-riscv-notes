@@ -35,6 +35,12 @@ export PATH="$PATH:$PREFIX/bin"
 ```
 
 ### Install on OpenBSD:
+- prerequisite
+  - `pkg_add -r python`
+  - `pkg_add glib2`
+  - `pkg_add gmake`
+  - `pkg_add bison`
+ 
 ```
 export PREFIX="/usr/local/riscv"
 

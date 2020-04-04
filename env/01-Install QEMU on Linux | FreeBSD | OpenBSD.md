@@ -17,7 +17,7 @@ git clone https://git.qemu.org/git/qemu.git
 cd qemu
 git submodule init
 git submodule update --recursive
-./configure --target-list=riscv64-softmmu,riscv32-softmmu
+./configure --target-list=riscv64-softmmu
 make -j8
 sudo make install
 ```

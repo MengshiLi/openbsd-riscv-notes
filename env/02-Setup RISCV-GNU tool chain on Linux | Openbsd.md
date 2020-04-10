@@ -1,16 +1,16 @@
-## Install on Linux (Ubuntu18)
+## Install GNU Tool Chain on Linux (Ubuntu18)
 [reference](https://github.com/riscv/riscv-gnu-toolchain)
 
-### get repo:
+### Get repo:
 ```
 git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
 ```
-### prerequisites:
+### Prerequisites:
 ```
 sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
 ```
 
-### installation (Linux)
+### Installation
 ```
 cd riscv-gnu-toolchain
 ./configure --prefix=/usr/local/riscv
@@ -20,7 +20,7 @@ export PATH=$PATH:/usr/local/riscv/bin
 export RISCV=/usr/local/riscv
 ```
 
-## Install on Linux (Ubuntu18) - (Faster)
+## Install GDB alone on Linux (Ubuntu18)
 
 ### Repo
 ```
@@ -38,5 +38,5 @@ export PATH=$PATH:/usr/local/riscv/bin
 export RISCV=/usr/local/riscv
 ```
 
-## Install on Openbsd
+## Install GNU Tool Chain on Openbsd
 - `pkg_add riscv-elf-binutils riscv-elf-gcc riscv-elf-newlib`
